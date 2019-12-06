@@ -13,7 +13,7 @@ import format from 'date-fns/format';
  */
 function parseSemVer(semver: string, suffix: string, additionalTagsStr: string): Array<string> {
   // https://regex101.com/r/sxGQtU/2
-  const match: RegExpMatchArray | null = semver.match(/^([0-9]+)\.([0-9]+)\.([0-9]+)(-RC[0-9]*)?$/);
+  const match: RegExpMatchArray | null = semver.match(/^(v[0-9]+)\.([0-9]+)\.([0-9]+)(-[0-9a-f]*)?$/);
   if (match == null) {
     throw new Error(`Param 'semver' is invalid: ${semver}`);
   }
@@ -33,9 +33,7 @@ function parseSemVer(semver: string, suffix: string, additionalTagsStr: string):
   const tags: Array<string> = [];
 
   if (rc != null) {
-    const date: string = format(new Date(), 'yyyyMMddhhmmss');
     tags.push(all);
-    tags.push(`${all}.${date}`);
   }
   else {
     tags.push(`${major}.${minor}.${patch}${suffix}`);
